@@ -1,5 +1,6 @@
-import { screen, render, fireEvent } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 import SummaryForm from "../SummaryForm";
+import userEvent from '@testing-library/user-event';
 
 
 test('Checkbox is unchecked by default', () => {
@@ -16,7 +17,7 @@ test('Checking checkbox enables button', () => {
   const button = screen.getByRole('button', { name: 'Submit Order'});
 
   expect(button).toBeDisabled();
-  fireEvent.click(checkbox);
+  userEvent.click(checkbox);
   expect(button).toBeEnabled();
 
 
@@ -28,9 +29,28 @@ test('UNchecking checkbox AGAIN disables button', () => {
   const button = screen.getByRole('button', { name: 'Submit Order'});
 
   expect(button).toBeDisabled();
-  fireEvent.click(checkbox);
+  userEvent.click(checkbox);
   expect(button).toBeEnabled();
-  fireEvent.click(checkbox);
+  userEvent.click(checkbox);
   expect(button).toBeDisabled();
 });
 
+test('pop-up responds to hover', () => {
+  render(<SummaryForm />);
+  //pop over starts hidden
+  const noPopUp = screen.queryByText(/you must agree to our terms and conditions to confirm your order/i);
+  //expect(noPopUp).toBeNull();
+  expect(noPopUp).not.toBeInTheDocument();
+
+  //popover appears upon moveover of checkbox label
+  const termsAndConditions = screen.getByText(/Terms and Conditions/i);
+  userEvent.hover(termsAndConditions)
+
+  const popUp = screen.getByText(/you must agree to our terms and conditions to confirm your order/i);
+  expect(popUp).toBeInTheDocument();
+
+  //popover disappears when we mouse out
+  userEvent.unhover(termsAndConditions);
+  const noPopUpAgain = screen.queryByText(/you must agree to our terms and conditions to confirm your order/i);
+  expect(noPopUpAgain).not.toBeInTheDocument();
+})
