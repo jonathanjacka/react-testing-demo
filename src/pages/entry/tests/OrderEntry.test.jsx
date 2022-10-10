@@ -18,6 +18,4 @@ test('Handles error for scoops and topping routes', async () => {
     const alerts = await screen.findAllByRole('alert');
     expect(alerts).toHaveLength(2);
   });
-
-
 });
