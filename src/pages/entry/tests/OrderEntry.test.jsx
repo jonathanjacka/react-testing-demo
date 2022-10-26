@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'; 
+import { render, screen, waitFor } from '../../../test-utils/testing-library'; 
 
 //will overwrite server in order to simulate errors
 import { rest } from 'msw';

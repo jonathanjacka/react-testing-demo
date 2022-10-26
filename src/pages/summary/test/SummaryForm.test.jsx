@@ -8,7 +8,6 @@ test('Checkbox is unchecked by default', () => {
   const checkbox = screen.getByRole('checkbox', { name: 'Agree to Terms and Conditions'});
   expect(checkbox).toBeInTheDocument();
   expect(checkbox).not.toBeChecked();
-
 })
 
 test('Checking checkbox enables button', () => {  
@@ -19,8 +18,6 @@ test('Checking checkbox enables button', () => {
   expect(button).toBeDisabled();
   userEvent.click(checkbox);
   expect(button).toBeEnabled();
-
-
 });
 
 test('UNchecking checkbox AGAIN disables button', () => {
